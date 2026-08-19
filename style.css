@@ -1152,3 +1152,27 @@ footer a {
   opacity: 0.9;
 }
 
+/* Badge de oferta en la esquina de la tarjeta */
+.badge-promo {
+  background-color: #ff3b30;
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+/* Precio anterior tachado */
+.old-price {
+  text-decoration: line-through;
+  color: #8e8e93;
+  margin-right: 6px;
+  font-size: 0.9em;
+}
+
+/* Precio de oferta en destacado */
+.promo-price {
+  color: #28a745;
+  font-weight: bold;
+}

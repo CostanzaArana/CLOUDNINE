@@ -167,10 +167,12 @@ async function fetchProductsFromSheet() {
 
       // Agregar sabor a la lista de opciones
       if (row.flavor) {
-        grouped[key].flavors.push({
-          name: String(row.flavor).trim(),
-          usd: Number(String(row.price_usd || 0).replace(",", ".")),
-          outOfStock: row.flavor_outofstock === true || String(row.flavor_outofstock).toUpperCase() === "TRUE"
+          grouped[key].flavors.push({
+            name: String(row.flavor).trim(),
+            usd: Number(String(row.price_usd || 0).replace(",", ".")),
+            // NUEVO: Precio en promoción (si existe)
+            promoUsd: row.promo_price_usd ? Number(String(row.promo_price_usd).replace(",", ".")) : null,
+            outOfStock: row.flavor_outofstock === true || String(row.flavor_outofstock).toUpperCase() === "TRUE",
         });
       }
     });
@@ -245,8 +247,13 @@ function createProductCard(product) {
 
   const imageSrc = product.image || "assets/placeholder.jpg";
 
+  // Verificamos si al menos un sabor tiene promoción para poner la etiqueta en la imagen
+  const hasAnyPromo = product.flavors.some(f => f.promoUsd && f.promoUsd < f.usd);
+  const badgeHTML = hasAnyPromo ? `<span class="badge-promo">OFERTA</span>` : "";
+
 card.innerHTML = `
   <div class="card-img">
+    ${badgeHTML}
     <img src="${imageSrc}" alt="${product.brand} ${product.name}" loading="lazy">
   </div>
   <div class="card-body">
@@ -292,8 +299,23 @@ card.innerHTML = `
     }
 
     const qty = Math.max(1, parseInt(qtyEl.value) || 1);
-    const total = priceFor(flavor.usd) * qty;
-    priceEl.textContent = fmtARS(total);
+
+    // NUEVO: Verificar si el sabor seleccionado tiene precio promocional
+    const activeUsd = (flavor.promoUsd && flavor.promoUsd < flavor.usd) ? flavor.promoUsd : flavor.usd;
+    
+    // Si está en oferta, mostramos el precio anterior tachado y el de oferta calculado
+    if (flavor.promoUsd && flavor.promoUsd < flavor.usd) {
+      const oldTotal = priceFor(flavor.usd) * qty;
+      const promoTotal = priceFor(flavor.promoUsd) * qty;
+      
+      priceEl.innerHTML = `
+        <span class="old-price">${fmtARS(oldTotal)}</span>
+        <span class="promo-price">${fmtARS(promoTotal)}</span>
+      `;
+    } else {
+      const total = priceFor(activeUsd) * qty;
+      priceEl.textContent = fmtARS(total);
+    }
   }
 
   selectEl.addEventListener("change", updateState);
@@ -305,11 +327,14 @@ card.innerHTML = `
 
     const qty = Math.max(1, parseInt(qtyEl.value) || 1);
 
+    // Si tiene promo, enviamos al carrito el precio con descuento
+    const finalUsd = (flavor.promoUsd && flavor.promoUsd < flavor.usd) ? flavor.promoUsd : flavor.usd;
+
     addToCart({
       brand: product.brand,
       name: product.name,
       flavor: flavor.name,
-      usd: flavor.usd,
+      usd: finalUsd,
       qty
     });
   });
@@ -318,7 +343,6 @@ card.innerHTML = `
 
   return card;
 }
-
 
 // ==========================
 // RENDERIZAR PRODUCTOS
