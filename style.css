@@ -517,27 +517,6 @@ nav {
   transform: translateY(-3px);
 }
 
-.card-img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #000;
-  overflow: hidden;
-  padding: 12px;
-  box-sizing: border-box;
-  border-radius: 8px;
-}
-
-.card-img img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  display: block;
-}
 
 .card-body {
   padding-top: 0.8rem;
@@ -557,14 +536,6 @@ nav {
   opacity: 0.6;
   margin: 0.2rem 0;
   font-family: var(--font-body);
-}
-
-.card-price {
-  font-size: 1.15rem;
-  margin: 0.5rem 0;
-  font-family: var(--font-titles);
-  font-weight: 800;
-  color: #00d2ff;
 }
 
 .card-label {
@@ -1152,27 +1123,113 @@ footer a {
   opacity: 0.9;
 }
 
-/* Badge de oferta en la esquina de la tarjeta */
+/* Etiqueta de OFERTA */
 .badge-promo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
   background-color: #ff3b30;
-  color: white;
+  color: #ffffff;
   font-weight: bold;
+  font-size: 0.75rem;
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 0.8rem;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-/* Precio anterior tachado */
+/* Ajuste del contenedor de precios para alineación limpia */
+.card-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+/* Precio tachado */
 .old-price {
   text-decoration: line-through;
   color: #8e8e93;
-  margin-right: 6px;
-  font-size: 0.9em;
+  font-size: 0.95em;
 }
 
-/* Precio de oferta en destacado */
+/* Precio de oferta */
 .promo-price {
   color: #28a745;
   font-weight: bold;
+  font-size: 1.1em;
+}
+
+/* ==========================
+   CATÁLOGO Y PRODUCTOS (CORREGIDO)
+   ========================== */
+
+/* Contenedor de la imagen unificado */
+.card-img {
+  position: relative; /* Para posicionar la etiqueta OFERTA */
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  overflow: hidden; /* Mantiene la etiqueta dentro del borde */
+  padding: 12px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.card-img img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Precios e integraciones de oferta unificados */
+.card-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0.5rem 0;
+  font-family: var(--font-titles);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #00d2ff;
+}
+
+/* Precios promocionales */
+.old-price {
+  text-decoration: line-through;
+  color: #8e8e93;
+  font-size: 0.9em;
+  font-weight: 400;
+}
+
+.promo-price {
+  color: #28a745;
+  font-weight: 800;
+  font-size: 1.1em;
+}
+
+/* Etiqueta OFERTA */
+.badge-promo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  background-color: #ff3b30;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
