@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://tu-dominio.com/" />
+  <meta property="og:title" content="Cloud Nine Vape Store | Catálogo Online" />
+  <meta property="og:description" content="E-liquids, pod systems y descartables con envío directo. Revisa nuestro catálogo actualizado." />
+  <meta property="og:image" content="https://tu-dominio.com/assets/og-image.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Cloud Nine Vape Store | Catálogo Online" />
+  <meta name="twitter:description" content="E-liquids, pod systems y descartables con envío directo. Revisa nuestro catálogo actualizado." />
+  <meta name="twitter:image" content="https://tu-dominio.com/assets/og-image.jpg" />
+
+
+  <title>Recargables | Cloud Nine</title>
+  <link rel="stylesheet" href="style.css">
+
+      <!-- Google Fonts: Montserrat & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Favicon -->
+<link rel="icon" type="image/png" href="logo.png">
+
+</head>
+<body>
+
+	<nav class="topbar">
+
+  <!-- 1. Izquierda: Hamburguesa -->
+	  	<button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-label="Abrir menú">
+		    <span></span>
+		    <span></span>
+		    <span></span>
+	  	</button>
+
+  <!-- 2. Centro: Marca -->
+  		<a href="index.html" class="brand-logo">Cloud Nine</a>
+
+  <!-- 3. Derecha: Acciones (Lupa + Carrito) -->
+	  	<div class="topbar-actions">
+			<button class="search-toggle" id="searchToggle" aria-label="Abrir buscador">
+	      🔍
+	    	</button>
+
+	    	<button class="cart-toggle" id="cartToggle" aria-label="Ver carrito">
+	      🛒 <span class="cart-count" id="cartCount">0</span>
+	    	</button>
+	  	</div>
+
+	</nav>
+
+	<!-- Buscador flotante en el header -->
+	<div class="search-bar" id="searchBar">
+	    <input 
+	      type="text" 
+	      id="searchInput" 
+	      placeholder="Buscar modelo, marca o sabor..." 
+	      aria-label="Buscar productos"
+	    >
+	    <button id="searchClose" aria-label="Cerrar búsqueda">×</button>
+	</div>
+
+
+	  <div class="menu-overlay" id="menuOverlay">
+
+	    <button class="menu-close" id="menuClose" aria-label="Cerrar menú">
+	      ×
+	    </button>
+
+	    <a href="index.html">Inicio</a>
+
+	    <details class="menu-group">
+	      <summary>Descartables</summary>
+	      <div class="submenu" id="submenu-descartables"></div>
+	    </details>
+
+	    <details class="menu-group">
+	      <summary>Recargables</summary>
+	      <div class="submenu" id="submenu-recargables"></div>
+	    </details>
+
+	    <details class="menu-group">
+	      <summary>Líquidos</summary>
+	      <div class="submenu" id="submenu-liquidos"></div>
+	    </details>
+
+	  </div>
+
+
+  <!-- PANEL DEL CARRITO -->
+
+<aside class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h2>Tu Carrito</h2>
+    <button id="cartClose" aria-label="Cerrar carrito">&times;</button>
+  </div>
+
+  <!-- Lista dinámica de productos agregados -->
+  <div id="cartItems" class="cart-items"></div>
+
+  <!-- FORMULARIO DE DATOS DEL CLIENTE DENTRO DEL CARTPANEL -->
+  <div class="cart-checkout-form">
+    <h4>Datos para el pedido</h4>
+    
+    <label for="clientName">Nombre y Apellido</label>
+    <input type="text" id="clientName" placeholder="Ej: Lucas Pérez" required />
+
+    <label for="deliveryMethod">Método de entrega</label>
+    <select id="deliveryMethod">
+      <option value="retiro">Retiro en persona</option>
+      <option value="alta-gracia">Envío en Alta Gracia (GRATIS)</option>
+      <option value="alrededores">Envío a alrededores ($5.000)</option>
+    </select>
+
+    <!-- RESUMEN / INDICADOR VISUAL DE ENVÍO -->
+    <div id="shippingSummary" class="shipping-summary">
+      <span class="shipping-label">Costo de envío:</span>
+      <span id="shippingCostBadge" class="badge-free">¡GRATIS!</span>
+    </div>
+
+    <!-- Selector de localidades para alrededores -->
+    <div id="townGroup" class="address-group" style="display: none;">
+      <label for="clientTown">Localidad de alrededores</label>
+      <select id="clientTown">
+        <option value="Anisacate">Anisacate</option>
+        <option value="La Bolsa">La Bolsa</option>
+        <option value="Villa del Prado">Villa del Prado</option>
+        <option value="Los Aromos">Los Aromos</option>
+        <option value="La Serranita">La Serranita</option>
+        <option value="Santa Ana">Santa Ana</option>
+        <option value="Falda del Carmen">Falda del Carmen</option>
+        <option value="Otro">Otro (Especificar)</option>
+      </select>
+
+      <!-- Campo que se abre SOLO si elige "Otro" -->
+      <div id="customTownGroup" style="display: none; margin-top: 8px;">
+        <label for="clientCustomTown">Nombre de la localidad / paraje</label>
+        <input type="text" id="clientCustomTown" placeholder="Ej: Valle Alegre, San Isidro, etc." />
+      </div>
+    </div>
+
+    <!-- Campo de dirección para envíos -->
+    <div id="addressGroup" class="address-group" style="display: none;">
+      <label for="clientAddress">Dirección de envío</label>
+      <input type="text" id="clientAddress" placeholder="Ej: Calle / Av. y altura" />
+    </div>
+  </div>
+
+  <!-- RESUMEN Y BOTÓN -->
+  <div class="cart-footer">
+    <div id="cartTotal" class="cart-total">Total: $ 0</div>
+    <button id="cartCheckout" class="cart-checkout-btn">Enviar pedido por WhatsApp 📲</button>
+  </div>
+</aside>
+
+
+		<main>
+
+    		<section class="catalog">
+
+      			<div class="section-head">
+        			<h2>Recargables</h2>
+      			</div>
+
+        <div class="filters-container">
+
+          <div class="filter-group">
+              <span class="filter-label">Marca:</span>
+              <div class="puff-filters" id="brandFilters">
+                <button class="filter-btn active" data-brand="all">Todas</button>
+              </div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">Precio:</span>
+            <div class="puff-filters">
+              <button class="filter-btn sort-btn" onclick="ordenarProductos('asc', this)">💵 Menor a Mayor</button>
+              <button class="filter-btn sort-btn" onclick="ordenarProductos('desc', this)">💎 Mayor a Menor</button>
+            </div>
+          </div>
+
+        </div>
+
+      <!-- El script.js cargará todos los recargables acá -->
+      		<div class="grid" id="grid-recargables"></div>
+    		
+    		</section>
+  		</main>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+  <footer>
+
+    <p>¿Dudas o pedidos?</p>
+
+    <div class="links">
+
+      <a href="https://wa.me/5493547322726" target="_blank">
+        WhatsApp
+      </a>
+
+      <a href="https://instagram.com/cloudnine.ag" target="_blank">
+        Instagram
+      </a>
+
+    </div>
+
+  </footer>
+
+
+  <script src="script.js"></script>
+  <!-- Backdrop/Overlay global -->
+  <div id="backdrop" class="backdrop"></div>
+
+  <div id="ageModal" class="age-modal">
+    <div class="age-modal-content">
+      <div class="age-modal-icon">🔞</div>
+      <h2>Verificación de Edad</h2>
+      <p>Para ingresar a <strong>Cloud Nine Store</strong> debes confirmar que tienes 18 años o más.</p>
+      <div class="age-modal-buttons">
+        <button id="btnAgeYes" class="age-btn primary">SÍ, SOY MAYOR (+18)</button>
+        <button id="btnAgeNo" class="age-btn secondary">NO, SOY MENOR</button>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+</html>
