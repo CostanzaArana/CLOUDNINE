@@ -71,6 +71,8 @@ const MARGIN = 1.65;
 const FALLBACK_RATE = 1300;
 const WHATSAPP_NUMBER = "5493547322726";
 
+const WORKER_MP_URL = "https://crear-preferencia-mp.cotiarana.workers.dev";
+
 let dolarBlueRate = null;
 let marcaSeleccionada = 'all'; // <--- AGREGAR ESTA LÍNEA AQUÍ
 
@@ -989,6 +991,97 @@ if (townSelect) {
 
 restoreCheckoutData();
 
+// ==========================
+// CHECKOUT: WHATSAPP Y MERCADO PAGO
+// ==========================
+
+// 1. Función para procesar pago con Mercado Pago
+async function pagarConMercadoPago() {
+  const cart = getCart();
+  if (cart.length === 0) {
+    showToast("Tu carrito está vacío");
+    return;
+  }
+
+  const nameInput = document.getElementById("clientName");
+  const addressInput = document.getElementById("clientAddress");
+  const customTownInput = document.getElementById("clientCustomTown");
+
+  const name = nameInput ? nameInput.value.trim() : "";
+  const method = deliverySelect ? deliverySelect.value : "retiro";
+  const address = addressInput ? addressInput.value.trim() : "";
+
+  let town = townSelect ? townSelect.value : "";
+  if (town === "Otro" && customTownInput) {
+    town = customTownInput.value.trim();
+  }
+
+  if (!name) {
+    showToast("Por favor, ingresá tu nombre");
+    if (nameInput) nameInput.focus();
+    return;
+  }
+
+  if (method !== "retiro" && !address) {
+    showToast("Por favor, ingresá tu dirección");
+    if (addressInput) addressInput.focus();
+    return;
+  }
+
+  if (method === "alrededores" && !town) {
+    showToast("Por favor, especificá tu localidad");
+    if (customTownInput && townSelect && townSelect.value === "Otro") customTownInput.focus();
+    return;
+  }
+
+  const itemsMP = cart.map(item => ({
+    title: `${item.brand ? item.brand + " " : ""}${item.name} (${item.flavor})`,
+    quantity: item.qty,
+    unit_price: priceFor(item.usd),
+    currency_id: "ARS"
+  }));
+
+  if (method === "alrededores") {
+    itemsMP.push({
+      title: "Costo de Envío (Alrededores)",
+      quantity: 1,
+      unit_price: 5000,
+      currency_id: "ARS"
+    });
+  }
+
+  showToast("Generando link de pago...");
+
+  try {
+    const respuesta = await fetch(WORKER_MP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        items: itemsMP,
+        payer: { name: name, address: address, town: town }
+      })
+    });
+
+    const data = await respuesta.json();
+
+    if (data.init_point) {
+      window.location.href = data.init_point;
+    } else {
+      showToast("Error al conectar con Mercado Pago");
+    }
+  } catch (error) {
+    console.error("Error al procesar pago:", error);
+    showToast("No se pudo iniciar el pago");
+  }
+}
+
+// 2. Evento para el botón de Mercado Pago
+const btnMP = document.getElementById("btnMercadoPago");
+if (btnMP) {
+  btnMP.addEventListener("click", pagarConMercadoPago);
+}
+
+// 3. Evento para el botón de WhatsApp (Mantiene tu código original)
 if (cartCheckout) {
   cartCheckout.addEventListener("click", () => {
     const cart = getCart();

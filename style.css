@@ -58,7 +58,8 @@ nav {
   text-decoration: none;
   color: inherit;
   font-weight: 700;
-  white-space: nowrap; /* Evita que el texto se rompa en dos líneas en pantallas chicas */
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .topbar .brand-logo,
@@ -115,7 +116,6 @@ nav {
   margin-bottom: 1.5rem;
 }
 
-/* Ajustes para el título */
 .cart-header h2 {
   margin: 0;
   font-size: 1.4rem;
@@ -449,6 +449,24 @@ nav {
   font-family: var(--font-titles);
 }
 
+#cartClose {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: color 0.2s ease, transform 0.2s ease;
+  font-family: var(--font-body);
+}
+
+#cartClose:hover {
+  color: #ff4d4d;
+  transform: scale(1.1);
+}
+
 /* ==========================
    CATÁLOGO Y PRODUCTOS
    ========================== */
@@ -466,6 +484,19 @@ nav {
   margin-bottom: 1.6rem;
   border-bottom: 1px solid var(--line);
   padding-bottom: 0.8rem;
+}
+
+.section-title-link,
+.section-head-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.section-title-link:hover,
+.section-head-link:hover {
+  color: #00d2ff;
+  opacity: 0.9;
 }
 
 #grid-productos,
@@ -517,6 +548,28 @@ nav {
   transform: translateY(-3px);
 }
 
+.card-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  overflow: hidden;
+  padding: 12px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.card-img img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
 
 .card-body {
   padding-top: 0.8rem;
@@ -536,6 +589,46 @@ nav {
   opacity: 0.6;
   margin: 0.2rem 0;
   font-family: var(--font-body);
+}
+
+.card-price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0.5rem 0;
+  font-family: var(--font-titles);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #00d2ff;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #8e8e93;
+  font-size: 0.9em;
+  font-weight: 400;
+}
+
+.promo-price {
+  color: #28a745;
+  font-weight: 800;
+  font-size: 1.1em;
+}
+
+.badge-promo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  background-color: #ff3b30;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .card-label {
@@ -613,13 +706,41 @@ nav {
    FILTROS Y NAVEGACIÓN DE PUFFS
    ========================== */
 
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 15px 0 25px 0;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.filter-label {
+  font-size: 0.85rem;
+  font-family: var(--font-titles);
+  color: var(--ink);
+  opacity: 0.8;
+  min-width: 60px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
 .puff-filters {
   display: flex;
-  gap: 10px;
-  margin: 15px 0 25px 0;
+  flex-wrap: nowrap;
   overflow-x: auto;
-  padding: 4px 2px 10px 2px;
+  gap: 8px;
+  margin: 0;
+  padding: 4px 4px 8px 4px;
+  flex: 1;
+  width: 100%;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
   scrollbar-width: none;
 }
 
@@ -640,6 +761,7 @@ nav {
   transition: all 0.25s ease;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   font-family: var(--font-body);
+  flex-shrink: 0;
 }
 
 .filter-btn.active, 
@@ -677,69 +799,6 @@ nav {
 .backdrop.active {
   opacity: 1;
   pointer-events: auto;
-}
-
-/* ==========================
-   FOOTER Y COTIZACIÓN
-   ========================== */
-
-footer {
-  border-top: 1px solid var(--line);
-  padding: 2.4rem 1.4rem;
-  text-align: center;
-  font-family: var(--font-body);
-}
-
-footer .links {
-  display: flex;
-  gap: 1.6rem;
-  justify-content: center;
-  margin-top: 0.6rem;
-  flex-wrap: wrap;
-}
-
-footer a {
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid var(--line);
-  font-size: 0.85rem;
-  font-family: var(--font-titles);
-}
-
-.currency-status {
-  font-size: 0.75rem;
-  opacity: 0.5;
-  margin-top: 1rem;
-  text-align: center;
-  font-family: var(--font-body);
-}
-
-/* ==========================
-   TOAST NOTIFICATION
-   ========================== */
-
-.toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--ink);
-  color: var(--paper);
-  padding: 0.8rem 1.2rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  z-index: 2000;
-  transform: translateY(100px);
-  opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  pointer-events: none;
-  font-family: var(--font-body);
-}
-
-.toast.show {
-  transform: translateY(0);
-  opacity: 1;
 }
 
 /* ==========================================
@@ -828,186 +887,71 @@ footer a {
   font-family: var(--font-titles);
 }
 
-#cartClose {
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  font-size: 1.8rem;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  transition: color 0.2s ease, transform 0.2s ease;
-  font-family: var(--font-body);
-}
+/* ==========================================
+   BOTONES DE CHECKOUT (MERCADO PAGO Y WHATSAPP)
+   ========================================== */
 
-#cartClose:hover {
-  color: #ff4d4d;
-  transform: scale(1.1);
-}
-
-#cartCheckout {
+.cart-footer .cart-checkout-btn,
+.cart-footer .btn-mp {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #25d366;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
   padding: 0.85rem 1.2rem;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  border: none;
   cursor: pointer;
-  margin-top: 1rem;
-  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.2s ease;
+  margin-top: 0.8rem;
+  text-decoration: none;
   font-family: var(--font-titles);
+  box-sizing: border-box;
 }
 
-#cartCheckout:hover {
+/* Botón Mercado Pago */
+.btn-mp {
+  background-color: #009ee3;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 158, 227, 0.3);
+}
+
+.btn-mp:hover {
+  background-color: #008cc9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 158, 227, 0.4);
+}
+
+/* Botón WhatsApp */
+.cart-checkout-btn {
+  background-color: #25d366;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.cart-checkout-btn:hover {
   background-color: #1ebc57;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
 }
 
-#cartCheckout:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
-}
-
-#cartCheckout:disabled {
-  background-color: #555555;
-  color: #888888;
+.cart-checkout-btn:disabled,
+.btn-mp:disabled {
+  background-color: #555555 !important;
+  color: #888888 !important;
   cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
-
-/* ==========================================
-   RESPONSIVE DESIGN / MEDIA QUERIES
-   ========================================== */
-
-@media (max-width: 900px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  .card {
-    padding: 12px;
-    border-radius: 12px;
-  }
-
-  .card h3 {
-    font-size: 0.95rem;
-    margin-bottom: 6px;
-  }
-
-  .card-select, .card-qty {
-    padding: 8px;
-    font-size: 0.85rem;
-    border-radius: 8px;
-  }
-
-  .card-cta {
-    padding: 10px 6px;
-    font-size: 0.8rem;
-    border-radius: 8px;
-  }
-
-  .cart-panel {
-    width: 88% !important;
-    max-width: 360px;
-  }
-}
-
-
-
-
-/* ==========================
-   CONTENEDOR DE FILTROS Y SCROLL
-   ========================== */
-
-.filters-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 15px 0 25px 0;
-}
-
-.filter-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-}
-
-.filter-label {
-  font-size: 0.85rem;
-  font-family: var(--font-titles);
-  color: var(--ink);
-  opacity: 0.8;
-  min-width: 60px;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-/* Scroll Horizontal en los botones */
-.filters-container .puff-filters {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 8px;
-  margin: 0;
-  padding: 4px 4px 8px 4px;
-  flex: 1;
-  width: 100%;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
-}
-
-/* Ocultar barra de scroll fea */
-.filters-container .puff-filters::-webkit-scrollbar {
-  display: none;
-}
-.filters-container .puff-filters {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Evita deformar botones */
-.filters-container .filter-btn {
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-
-/* Responsivo para Celulares */
-@media (max-width: 600px) {
-  .filter-group {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-  
-  .filter-label {
-    min-width: auto;
-  }
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 /* ==========================
    MODAL DE EDAD (+18)
    ========================== */
+
 .age-modal {
   position: fixed;
   top: 0;
@@ -1101,72 +1045,46 @@ footer a {
   color: #fff;
 }
 
-.brand-logo {
-  text-decoration: none;
-  color: inherit; /* Mantiene el color que ya tiene definido */
-  cursor: pointer;
+/* ==========================
+   FOOTER Y COTIZACIÓN
+   ========================== */
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 2.4rem 1.4rem;
+  text-align: center;
+  font-family: var(--font-body);
 }
 
-
-
-/* Estilos para enlaces en los títulos de secciones */
-.section-title-link,
-.section-head-link {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.2s ease, opacity 0.2s ease;
-}
-
-.section-title-link:hover,
-.section-head-link:hover {
-  color: #00d2ff; /* Cambia al color turquesa/neón al pasar el mouse */
-  opacity: 0.9;
-}
-
-/* Etiqueta de OFERTA */
-.badge-promo {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 2;
-  background-color: #ff3b30;
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 0.75rem;
-  padding: 4px 8px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-/* Ajuste del contenedor de precios para alineación limpia */
-.card-price {
+footer .links {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 10px 0;
-  font-size: 1.1rem;
+  gap: 1.6rem;
+  justify-content: center;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
 }
 
-/* Precio tachado */
-.old-price {
-  text-decoration: line-through;
-  color: #8e8e93;
-  font-size: 0.95em;
+footer a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+  font-family: var(--font-titles);
 }
 
-/* Precio de oferta */
-.promo-price {
-  color: #28a745;
-  font-weight: bold;
-  font-size: 1.1em;
+.currency-status {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  margin-top: 1rem;
+  text-align: center;
+  font-family: var(--font-body);
 }
 
 /* ==========================
-   CATÁLOGO Y PRODUCTOS (CORREGIDO)
+   TOAST NOTIFICATION
    ========================== */
 
+<<<<<<< HEAD
 /* Contenedor de la imagen unificado */
 .card-img {
   position: relative; /* Para posicionar la etiqueta OFERTA */
@@ -1233,3 +1151,82 @@ footer a {
   letter-spacing: 0.5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
+=======
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.8rem 1.2rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 2000;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+  font-family: var(--font-body);
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN / MEDIA QUERIES
+   ========================================== */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .card h3 {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+  }
+
+  .card-select, .card-qty {
+    padding: 8px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+
+  .card-cta {
+    padding: 10px 6px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+  }
+
+  .cart-panel {
+    width: 88% !important;
+    max-width: 360px;
+  }
+
+  .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  
+  .filter-label {
+    min-width: auto;
+  }
+}
+>>>>>>> 9240783 (Agregar MP)
